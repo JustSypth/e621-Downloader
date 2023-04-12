@@ -16,3 +16,6 @@ pip install requests
 Launch the script and type in tags of your choice and amount of posts you'd like to download.
 The amount of posts can be unlimited.
 Then choose a folder where you want to save those files in.
+
+### License
+e
