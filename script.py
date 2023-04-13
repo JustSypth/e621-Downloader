@@ -13,22 +13,28 @@ def checkValidTags(data):
         exit()
 
 def postCount(tags, limit):
-    tags = tags.split()
-    rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tags[0]}", headers=UserAgent)
+    tagList = tags.split("+")
+    rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tagList[0]}", headers=UserAgent)
     postCountData = rTags.json()
     
     if limit == 320:
         try:
-            number = postCountData[0]["post_count"]
+            if postCountData[0]["post_count"] != "None":
+                number = postCountData[0]["post_count"]
         except:
-            return "?"
+            pass
 
         for i in range(0, len(tags)):
-            rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tags[i]}", headers=UserAgent)
-            postCountData = rTags.json()
+            try:
+                if postCountData[0]["post_count"] != "None":
+                    rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tagList[i]}", headers=UserAgent)
+                    postCountData = rTags.json()
 
-            if int(postCountData[0]["post_count"]) < number:
-                number = postCountData[0]["post_count"]
+                    if int(postCountData[0]["post_count"]) < number:
+                        number = postCountData[0]["post_count"]
+            except:
+                i -= 1
+            
 
         return number
     else:
@@ -59,6 +65,7 @@ print()
 print("-Made by Gerdvibis on GitHub")
 print("INFO: Using any tag from the Cheatsheet will result in not showing the amount of files that will be downloaded")
 tags = input("What are the tags: ")
+tags = tags.replace(" ", "+")
 limit = int(input("How many posts do you want to save (0 for unlimited): "))
 if limit == 0:
     limit = 320
@@ -85,10 +92,10 @@ while True:
 
     #export files from the list
     for y in range(0, len(fileList)):
-        percentage = round(imageOrder / postAmount * 100)
-
         cls()
         print(f"Downloading File {imageOrder} of {postAmount}")
+
+        percentage = round(imageOrder / postAmount * 100)
 
         if percentage <= 10:
             print(f"|■---------| {percentage}%")
