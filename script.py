@@ -13,36 +13,37 @@ def checkValidTags(data):
         exit()
 
 def postCount(tags, limit):
-    tagList = tags.split("+")
-    rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tagList[0]}", headers=UserAgent)
-    postCountData = rTags.json()
-    
+    #tagList = tags.split("+")
+    amount = 0
+    i = 0
+
     if limit == 320:
-        try:
-            if postCountData[0]["post_count"] != "None":
-                number = postCountData[0]["post_count"]
-        except:
-            pass
+        while True:
+            cls()
+            print("Calculating amount of posts.. (The waiting time depends on amount of posts loaded)")
 
-        for i in range(0, len(tags)):
-            try:
-                if postCountData[0]["post_count"] != "None":
-                    rTags = requests.get(url = f"https://e621.net/tags.json?search[name_matches]={tagList[i]}", headers=UserAgent)
-                    postCountData = rTags.json()
+            time.sleep(1.2)
+            i += 1
+            URL = f"https://e621.net/posts.json?page={i}&limit={limit}&tags={tags}"
+            rTags = requests.get(url = URL, headers=UserAgent)
+            postData = rTags.json()
+            checkValidTags(postData)
 
-                    if int(postCountData[0]["post_count"]) < number:
-                        number = postCountData[0]["post_count"]
-            except:
-                i -= 1
-            
+            if len(postData["posts"]) == 320:
+                amount += 320
+                isDone = False
+            else:
+                amount += len(postData["posts"])
+                isDone = True
+        
+            if isDone == True:
+                time.sleep(5)
+                break
+        return amount
 
-        return number
     else:
         return limit
 
-    
-
-UserAgent = {"User-Agent": "e621Downloader/1.0 (by AmongUsPopIt on e621)"} 
 
 print("                    %                   ")
 print("                 %%%%%.                 ")
@@ -62,26 +63,26 @@ print("      ,,,,,,,,,,,,,,,,,,,,,,            ")
 print("       ,,,,,,,,,,,,,,,,,,,,             ")
 print()
 
+UserAgent = {"User-Agent": "e621Downloader/1.0 (by AmongUsPopIt on e621)"} 
+
 print("-Made by Gerdvibis on GitHub")
-print("INFO: Using any tag from the Cheatsheet will result in not showing the amount of files that will be downloaded")
 tags = input("What are the tags: ")
 tags = tags.replace(" ", "+")
 limit = int(input("How many posts do you want to save (0 for unlimited): "))
 if limit == 0:
     limit = 320
 
-i = 0
-imageOrder = 1
+i = -1
+imageOrder = 0
 postAmount = postCount(tags, limit)
 filepath = filedialog.askdirectory()
 
 while True:
     i += 1
-    URL = f"https://e621.net/posts.json?page=a{i}&limit={limit}&tags={tags}"
+    URL = f"https://e621.net/posts.json?page=a{320*i}&limit={limit}&tags={tags}"
     #request
     r = requests.get(url = URL, headers=UserAgent)
     data = r.json()
-    checkValidTags(data)
 
     fileList = []
 
