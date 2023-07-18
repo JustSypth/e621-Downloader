@@ -16,7 +16,11 @@ For Windows:
 ```
 pip install tk
 ```
-For Linux: [Click here for documentation](https://www.geeksforgeeks.org/how-to-install-tkinter-on-linux/)
+For Ubuntu/apt:
+```
+sudo apt-get install python3-tk
+```
+
 
 
 ## Usage
