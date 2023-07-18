@@ -11,9 +11,13 @@ You will also need to install few libraries using pip command in the command pro
 ```
 pip install requests
 ```
+
+For Windows:
 ```
 pip install tk
 ```
+For Linux: [Click here for documentation](https://www.geeksforgeeks.org/how-to-install-tkinter-on-linux/)
+
 
 ## Usage
 Launch the script and type in tags of your choice and amount of posts you'd like to download.
