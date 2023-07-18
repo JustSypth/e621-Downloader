@@ -9,7 +9,7 @@ def cls():
 def checkValidTags(data):
     if len(data["posts"]) == 0:
         cls()
-        input("You might have entered invalid tag...")
+        input("You entered invalid tags...")
         exit()
 
 def postCount(tags, limit):
@@ -20,7 +20,7 @@ def postCount(tags, limit):
     if limit == 320:
         while True:
             cls()
-            print("Calculating amount of posts.. (The waiting time depends on amount of posts loaded)")
+            print("Calculating amount of posts.. (The calculating time depends on the amount of posts)")
 
             time.sleep(1.2)
             i += 1
@@ -72,17 +72,40 @@ limit = int(input("How many posts do you want to save (0 for unlimited): "))
 if limit == 0:
     limit = 320
 
+postAmount = postCount(tags, limit)
+
+print("How do you want to choose the directory?")
+try:
+    filePathMode = int(input("1. Cli, 2. Window: "))
+except:
+    input("You have to enter a number")
+    exit()
+
+cls()
+
+if filePathMode == 1:
+    filepath = input("Paste the directory of your desired location here: ")
+if filePathMode == 2:
+    print("Opening window..")
+    filepath = filedialog.askdirectory()
+
 i = -1
 imageOrder = 0
-postAmount = postCount(tags, limit)
-filepath = filedialog.askdirectory()
+
+postID_Url = f"https://e621.net/posts.json?limit=1&tags={tags}"
+postID_Request = requests.get(url = postID_Url, headers=UserAgent)
+postID_Data = postID_Request.json()
+currentID = postID_Data["posts"][0]["id"]
 
 while True:
     i += 1
-    URL = f"https://e621.net/posts.json?page=a{320*i}&limit={limit}&tags={tags}"
+    URL = f"https://e621.net/posts.json?page=b{currentID}&limit={limit}&tags={tags}"
     #request
     r = requests.get(url = URL, headers=UserAgent)
     data = r.json()
+
+    length = len(data["posts"]) - 1
+    currentID = data["posts"][length]["id"]
 
     fileList = []
 
@@ -90,6 +113,15 @@ while True:
     for x in range(0, len(data["posts"])):
         if data["posts"][x]["file"]["url"] != "None":
             fileList.append(data["posts"][x]["file"]["url"])
+
+    #checking if directory is valid
+    try:
+        open(f"{filepath}/e621.txt" ,"w").write("Thank you for using my script \nhttps://github.com/JustSypth/e621-Downloader")
+    except:
+        cls()
+        input("You either entered an invalid directory or you don't have permissions..")
+        exit()
+
 
     #export files from the list
     for y in range(0, len(fileList)):
