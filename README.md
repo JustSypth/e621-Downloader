@@ -6,10 +6,13 @@ Currently the script only supports downloading posts based of tags but I'm plann
 ## Requirements:
 > [Python 3.0 or higher version](https://www.python.org/downloads/)
 
-You will also need to install [requests](https://pypi.org/project/requests/) library using pip command in the command prompt:
+You will also need to install few libraries using pip command in the command prompt:
 
 ```
 pip install requests
+```
+```
+pip install tkinter
 ```
 
 ## Usage
