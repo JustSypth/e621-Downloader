@@ -12,7 +12,7 @@ You will also need to install few libraries using pip command in the command pro
 pip install requests
 ```
 ```
-pip install tkinter
+pip install tk
 ```
 
 ## Usage
