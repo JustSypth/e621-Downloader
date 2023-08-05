@@ -65,7 +65,7 @@ print()
 
 UserAgent = {"User-Agent": "e621Downloader/1.0 (by AmongUsPopIt on e621)"} 
 
-print("-Made by Gerdvibis on GitHub")
+print("-Made by JustSypth on GitHub")
 tags = input("What are the tags: ")
 tags = tags.replace(" ", "+")
 limit = int(input("How many posts do you want to save (0 for unlimited): "))
