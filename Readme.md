@@ -6,7 +6,7 @@ Currently the script only supports downloading posts based on tags but I'm plann
 ## Requirements:
 > [Python 3.0 or higher version](https://www.python.org/downloads/)
 
-You will also need to install a library using pip command in the command prompt:
+You will also need to install a few libraries using pip command in the command prompt:
 
 ```
 pip install requests
