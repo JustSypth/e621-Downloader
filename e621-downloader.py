@@ -63,7 +63,7 @@ print("      ,,,,,,,,,,,,,,,,,,,,,,            ")
 print("       ,,,,,,,,,,,,,,,,,,,,             ")
 print()
 
-UserAgent = {"User-Agent": "e621Downloader/1.0 (by AmongUsPopIt on e621)"} 
+UserAgent = {"User-Agent": "e621Downloader/1.0 (by JustSypth on e621)"} 
 
 print("-Made by JustSypth on GitHub")
 tags = input("What are the tags: ")
